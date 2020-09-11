@@ -1,19 +1,21 @@
 
-package siguinha;
+package testes;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
+import org.junit.Ignore;
+import siguinha.Aluno;
+import siguinha.Disciplinas;
+import siguinha.ItemDeHistorico;
 
-public class AlunoTTD {
+public class AlunoTeste {
     
     private Aluno aluno;
     private Disciplinas disciplina1;
     private Disciplinas disciplina2;
     private Disciplinas disciplina3;
-
+    
     @Before
     public void setUp() {
         aluno = new Aluno(12345, 2018, "Aluno Teste");
@@ -27,20 +29,18 @@ public class AlunoTTD {
         disciplina3 = new Disciplinas("MAJ003", "Disciplina 3");
         disciplina3.setCreditos(6);
     }
-
+    
     @Test
-    public void getDreTest() {
-       assertEquals(12345, aluno.getDre());
+    public void getDreTeste(){
+        assertEquals(12345, aluno.getDre());
     }
-
+    
     @Ignore
     @Test
-    public void getCraTest() {
-
-    }
-
+    public void getCraTeste(){}
+    
     @Test
-    public void getConclusaoDiscipinaTest() {
+    public void getConclusaoDisciplinaTeste(){
         ItemDeHistorico[] resultadoObtido = aluno.getDisciplinasCursadas();
         assertNotNull(resultadoObtido);
         for (int i = 0; i < resultadoObtido.length; i++) {
@@ -76,46 +76,10 @@ public class AlunoTTD {
         assertEquals("MAJ003", terceiroItem.getDisciplina().getCodigo());
         verificarAtualizacaoCreditos(3, 8.375f, 16);
     }
-
-    @Test
-    public void retornarHistoricoTest() {
-        aluno.registrarConclusaoDisciplina(disciplina1, 6.5f, 2019, 2);
-        aluno.registrarConclusaoDisciplina(disciplina2, 8, 2020, 1);
-        aluno.registrarConclusaoDisciplina(disciplina3, 10, 2020, 2);
-
-        String historicoRetornado = aluno.retornarHistoricoAsString();
-        String historicoEsperado =
-                "MAB001 - média 6.5 - 4 créditos - 2019.2\n" +
-                "MAB002 - média 8.0 - 6 créditos - 2020.1\n" +
-                "MAJ003 - média 10.0 - 6 créditos - 2020.2";
-        assertEquals(historicoEsperado, historicoRetornado);
-    }
-
-    private void verificarAtualizacaoCreditos(int quantDiscipinasEsperado,
-                                              float craEsperado,
-                                              int creditosAcumuladosEsperado) {
+    
+    private void verificarAtualizacaoCreditos(int quantDiscipinasEsperado, float craEsperado, int creditosAcumuladosEsperado) {
         assertEquals(quantDiscipinasEsperado, aluno.getQuantDisciplinasCursadas());
         assertEquals(craEsperado, aluno.getCra(), 0);  // o terceiro parâmetro é a maior diferença aceitável
         assertEquals(creditosAcumuladosEsperado, aluno.getCreditosAcumulados());
-    }
-
-    private void assertEquals(int i, long dre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void assertNotNull(ItemDeHistorico[] resultadoObtido) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void assertNull(ItemDeHistorico itemDeHistorico) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void assertEquals(String maB001, String codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void assertEquals(float craEsperado, float cra, int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
