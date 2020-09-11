@@ -3,31 +3,24 @@ package helloworld;
 
 import java.util.Scanner;
 
+
 public class HelloWorld {
-    
-    public static void imprimirDivisores(int x) {
-        int div = 1;
-        while (div <= x) {
-            if (x % div == 0) {
-                System.out.println(div);
-            }
-            div++;
-         }
-    }
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-        Scanner sc = new Scanner(System.in);
-        String linha = sc.nextLine();
-        
-        int tamanho = linha.length();
+        Scanner meuScanner = new Scanner(System.in);
 
-        System.out.println( "Você digitou: " + linha + " (contém " + tamanho + " caracteres)");
-        // Outro jeito, usando String.format()
-        System.out.println(String.format("Você digitou: %s (contém %d caracteres)", linha, tamanho));
-        // Outro jeito, usando printf("...\n")
-        System.out.printf("Você digitou: %s (contém %d caracteres)\n", linha, tamanho);
+        System.out.println("Digite seu nome, por favor: ");
+        String nome = meuScanner.nextLine();
 
-        imprimirDivisores(12);
+        System.out.println("Oi, " + nome + "!");
+
+        int numero;
+        numero = meuScanner.nextInt();
+
+        String stringFormatada = String.format("Obrigado pelo numero %d, %s!", numero, nome);
+        System.out.println(stringFormatada);
+        // equivalentemente...
+        // System.out.printf("Obrigado pelo numero %d, %s!\n", numero, nome);
     }
+    
 }
