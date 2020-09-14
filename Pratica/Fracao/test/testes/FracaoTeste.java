@@ -26,7 +26,7 @@ public class FracaoTeste {
     }
 
     @Test
-    public void getFracaoIrredutivelTestParaFracaoNaoIrredutivel() {
+    public void getFracaoGeratrizTestParaFracaoNaoIrredutivel() {
         Fracao fracao = new Fracao(4, 20, false);
 
         assertEquals(1, fracao.getFracaoGeratriz().getNumerador());
@@ -36,7 +36,7 @@ public class FracaoTeste {
     }
 
     @Test
-    public void getFracaoIrredutivelTestParaFracaoJaIrredutivel() {
+    public void getFracaoGeratrizTestParaFracaoJaIrredutivel() {
         Fracao fracao = new Fracao(1, 3, true);
         assertTrue("Se a fração já é irredutível, ela deve retornar a si própria",
                 fracao.getFracaoGeratriz() == fracao);
@@ -71,6 +71,24 @@ public class FracaoTeste {
         assertEquals(0, y.getValorNumerico(), DOUBLE_DELTA);
         assertEquals(0, z.getValorNumerico(), DOUBLE_DELTA);
 
-        assertFalse("Frações nulas não são positivas!!!", x.isPositiva());
+        assertFalse("Frações nulas não são positivas!!!", x.isPositiva());       
     }
+    
+    @Test
+        public void testarToString(){
+            Fracao fracao = new Fracao(1, 3, true);
+            assertEquals("1/3", fracao.toString());
+            
+            Fracao fracaoNegativa = new Fracao(2, 6, false);
+            assertEquals("-2/6", fracaoNegativa.toString());
+            
+            Fracao fracaoAparente = new Fracao(2, 4, true);
+            assertEquals("2", fracaoAparente.toString());
+            
+            Fracao fracaoComDenominadorUm = new Fracao(10, 1, true);
+            assertEquals("10", fracaoComDenominadorUm.toString());
+            
+            Fracao fracaoNula = new Fracao(0, 3, true);
+            assertEquals("0", fracaoNula.toString());
+        }
 }
