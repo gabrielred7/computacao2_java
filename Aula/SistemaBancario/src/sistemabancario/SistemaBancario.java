@@ -9,24 +9,12 @@ public class SistemaBancario {
         
         Agencia agencia = new Agencia();
         
-        Conta cont1 = new Conta(1234, agencia, cor1);
-        Conta cont1Replica = new Conta(1234, agencia, cor1);
+        Conta cont1 = new Conta(1234, agencia, cor1);        
+        Conta cont2 = new Conta(5679, agencia, cor2);
         
-        Conta cont2 = new Conta(1234, agencia, cor1);
+        cont1.depositar(400, "dinheiro");
+        cont2.depositar(200, "dinheiro");    
         
-        System.out.println(cont1 == cont2);
-        System.out.println(cont1 == cont1);
-        
-        System.out.println(cont1 == cont1Replica);
-        System.out.println(cont1.equals(cont1Replica));
-        
-        System.out.println("-------------");
-        String x = new String("labcd2");
-        String y = new String("labcd2");
-        
-        System.out.println(x == y);
-        System.out.println(x.equals(y));
-
-        Conta cont3 = cont1;
-        System.out.println("cont3 == cont1 ? " + (cont3 == cont1));    }
+        Conta.facaAlgumaCoisa(333);
+    }
 }

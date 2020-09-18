@@ -1,28 +1,30 @@
 
 package sistemabancario;
 
+import java.util.ArrayList;
+
 public class Banco {
     
     private String nome;
     
-    private Lista contas;
-    private Lista gerentes;
-    private Lista correntistas;
-    private Lista agencias;
+    private ArrayList<Conta> contas;
+    private ArrayList<Gerente> gerentes;
+    private ArrayList<Correntista> correntistas;
+    private ArrayList<Agencia> agencias;
 
     public Banco() {
-        this.contas = new Lista();
-        this.correntistas = new Lista();
-        this.agencias = new Lista();
-        this.gerentes = new Lista();
+        this.contas = new ArrayList();
+        this.correntistas = new ArrayList();
+        this.agencias = new ArrayList();
+        this.gerentes = new ArrayList();
     }
 
     public int getQuantAgencias() {
-        return this.agencias.getTamanho();
+        return this.agencias.size();
     }
 
     public int getQuantContas() {
-        return this.contas.getTamanho();
+        return this.contas.size();
     }
     
     private int obterDigitoVerificador(long numero){
@@ -33,19 +35,19 @@ public class Banco {
     
     public Gerente adicionarGerente(String nome){
         Gerente novoGerente = new Gerente(nome);
-        this.gerentes.adicionarItem(novoGerente);
+        this.gerentes.add(novoGerente);
         return novoGerente;
     }
     
     public Correntista adicionarCorrentista(String nome, int senhaNumerica){
         Correntista novoCorrentista = new Correntista(nome, senhaNumerica);
-        this.correntistas.adicionarItem(novoCorrentista);
+        this.correntistas.add(novoCorrentista);
         return novoCorrentista;
     }
     
     public Agencia adicionarAgencia(int codigo, String nome){
         Agencia novaAgencia = new Agencia();
-        this.agencias.adicionarItem(novaAgencia);
+        this.agencias.add(novaAgencia);
         return novaAgencia;
     }
     
@@ -56,7 +58,7 @@ public class Banco {
         numero = numero * 10;
         numero = numero + digitoVerificador;
         Conta novaConta = new Conta(numero, agencia, correntista);
-        this.contas.adicionarItem(novaConta);
+        this.contas.add(novaConta);
         return novaConta;
     }
     
@@ -68,7 +70,7 @@ public class Banco {
     
     public Conta obterConta(long numeroDaContaDesejada) {
         for (int i = 0; i < getQuantContas(); i++) {
-            Conta conta = (Conta) this.contas.obterItem(i);
+            Conta conta = (Conta) this.contas.get(i);
             if (conta.getNumero() == numeroDaContaDesejada) {
                 return conta;  // encontrei a conta desejada!!!
             }
@@ -86,7 +88,7 @@ public class Banco {
     
     public Conta obterConta(Correntista correntista) {
         for (int i = 0; i < getQuantContas(); i++) {
-            Conta conta = (Conta) this.contas.obterItem(i);
+            Conta conta = (Conta) this.contas.get(i);
             if (conta.getCorrentista() == correntista) {
                 return conta;  // encontrei a conta desejada!!!
             }

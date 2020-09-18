@@ -7,22 +7,26 @@ public class Conta {
     //atributos
     public final static int LIMITE = 100;
     private final long numero;
+    private final Correntista correntista;
     private float saldo;
     private String[] historicoOperacoes;
     private int quantItensHistorico;
-    private final Correntista correntista;
     private Gerente gerente;
     private Agencia agencia;
+    
+    private static int numeroSaques = 0;
+    private static int numeroTransferencias = 0;
+    private static int numeroDepositos= 0;
             
     //metodos
     public Conta(long numero,  Agencia agencia, Correntista correntista) {
         this.numero = numero;
+        this.agencia = agencia; // agregaçao
+        this.correntista = correntista;
         this.saldo = 0;
         this.historicoOperacoes = new String[0]; // composição
         this.quantItensHistorico = 0;
-        this.correntista = correntista;
         this.gerente = agencia.getGerenteGeral(); // gerente default
-        this.agencia = agencia; // agregaçao
     }
             
     public Gerente getGerente() {
@@ -56,12 +60,25 @@ public class Conta {
     public String[] getHistoricoOperacoes() {
         return historicoOperacoes;
     }
+
+    public static int getNumeroSaques() {
+        return numeroSaques;
+    }
+
+    public static int getNumeroTransferencias() {
+        return numeroTransferencias;
+    }
+
+    public static int getNumeroDepositos() {
+        return numeroDepositos;
+    }
     
     public void receberDepositoEmDinheiro(float valor){
         depositar(valor, "em dinheiro");    
     }
     
     public void sacar(float valor, int senha){
+        numeroSaques++;
         if (this.saldo - valor < -LIMITE) {
             return;
         }
@@ -71,6 +88,7 @@ public class Conta {
     }
     
     public void efetuarTransferencia(Conta contaDestino, float valor){
+        numeroTransferencias++;
         this.saldo = this.saldo - valor;
         contaDestino.depositar(valor, this.getCorrentista().getNome());
         String novoItem = String.format("Transferência efetuada para a conta %d: R$%.2f",
@@ -79,11 +97,18 @@ public class Conta {
     }
     
     public void depositar(float valor, String descricaoOrigem){
+        numeroDepositos++;
         this.saldo += valor;
         String novoItem = String.format("Depósito %s: R$%.2f", descricaoOrigem, valor);
         this.historicoOperacoes[this.quantItensHistorico++] = novoItem;
     }
+    
+    public static void facaAlgumaCoisa(int x) {
+        String msg = "Estou fazendo algo num contexto static com ";
+        System.out.println(msg + x + " --- " + numeroDepositos);
 
+    }
+    
     @Override
     public int hashCode() {
          return Objects.hash(numero, agencia);
