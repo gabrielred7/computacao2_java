@@ -1,6 +1,7 @@
 
 package album;
 
+
 public class Figurinha {
     
     private int posicao;

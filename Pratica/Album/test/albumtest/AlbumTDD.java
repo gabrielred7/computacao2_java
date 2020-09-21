@@ -4,7 +4,6 @@ package albumtest;
 import album.Album;
 import album.Figurinha;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Random;
@@ -22,6 +21,7 @@ public class AlbumTDD {
     private Random random = new Random();
     private final int TOTAL_FIGURINHAS = 200;
     private final int QUANT_FIGURINHAS_POR_PACOTE = 3;
+    private Album album;
     
     private Figurinha[] criarPacotinho(int[] posicoesDesejadas){
         Figurinha[] novoPacotinho = new Figurinha[QUANT_FIGURINHAS_POR_PACOTE];
@@ -41,7 +41,7 @@ public class AlbumTDD {
     
     @Before
     public void setUp() {
-        Album album = new Album(TOTAL_FIGURINHAS, QUANT_FIGURINHAS_POR_PACOTE);
+        album = new Album(TOTAL_FIGURINHAS, QUANT_FIGURINHAS_POR_PACOTE);
     }
     
     @Test
@@ -100,5 +100,4 @@ public class AlbumTDD {
         assertEquals("Depois da encomenda, o álbum deve estar completo",
                 TOTAL_FIGURINHAS, album.getQuantFigurinhasColadas());
     }
-    
 }

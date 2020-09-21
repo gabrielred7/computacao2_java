@@ -1,5 +1,7 @@
 package siguinha;
 
+import java.util.Calendar;
+
 public class Aluno {
     
     // atributos
@@ -76,6 +78,13 @@ public class Aluno {
         this.cra = (numeradorCorrenteCra + novaParcela) / this.creditosAcumulados;
     }
     
+    public void registrarConclusaoDisciplina(Disciplinas disciplina, float mediaFinal){
+        int ano = Calendar.getInstance().getInstance().get(Calendar.YEAR);
+        int mes = Calendar.getInstance().getInstance().get(Calendar.MONTH);
+        int semestre 
+        
+        registrarConclusaoDisciplina(disciplina, mediaFinal, ano, semestre);
+    }
     public String retornarHistoricoAsString(){
         String resultado = " ";
         for (int i = 0; i < this.quantDisciplinasCursadas; i++) {

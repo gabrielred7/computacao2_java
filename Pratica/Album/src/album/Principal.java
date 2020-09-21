@@ -1,20 +1,19 @@
 
 package album;
 
-import java.util.Random;
+import java.util.ArrayList;
+
 
 public class Principal {
 
     public static void main(String[] args) {
         // TODO code application logic here
-        Random random = new Random();
+        ArrayList<String> stringList = new ArrayList<>();
         
-        int[] numeros = new int[20]; //arrays de 20 inteiros
-        for (int i = 0; i < 20; i++) {
-            numeros[i] = random.nextInt();
+        for (int i = 0; i < 10; i++) {
+            stringList.set(3, "String posição 2");
+            System.out.println("stringList.get(3) = " + stringList.get(3));
         }
-        for (int x : numeros) {
-            System.out.println(x);
-        }
+        
     }
 }
