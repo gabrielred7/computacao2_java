@@ -1,5 +1,5 @@
 
-package siguinha;
+package entidades;
 
 public class Disciplinas {
     private final String codigo;

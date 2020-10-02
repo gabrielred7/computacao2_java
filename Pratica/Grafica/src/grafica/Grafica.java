@@ -34,9 +34,15 @@ public class Grafica {
             case 'm':
                 impressora = new ImpressoraMatriz(marca);
                 break;
-                
-            default:
+            
+            case 't':
+                impressora = new ImpressoraTanqueDeTinta(marca, modelo);
+                break;
+            
+            case 'l': default:
                 impressora = new ImpressoraLaser();
+                break;
+                
         }
         return impressora;
     }

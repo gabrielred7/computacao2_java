@@ -1,7 +1,7 @@
 package grafica;
 import java.awt.*;
 
-public class Impressora {
+public abstract class Impressora {
     
     private String nome;
     private String marca;
@@ -9,7 +9,7 @@ public class Impressora {
     private float consumoPercentualPorCaracter;
 
     private int quantCaracteresImpressos;
-    private int quantCaracteresImpressosDesdeUltimaRecarga;
+    protected int quantCaracteresImpressosDesdeUltimaRecarga;
     
     public Impressora(String nome, String marca) {
         this.nome = nome;
@@ -31,17 +31,24 @@ public class Impressora {
         }
         quantCaracteresImpressos = quantCaracteresImpressos + texto.length();
         quantCaracteresImpressosDesdeUltimaRecarga = quantCaracteresImpressosDesdeUltimaRecarga + texto.length();
-        System.out.println("Enviando texto para a impressora física...");
+        boolean sucesso = executarImpressaoNoPapel(texto);
+        if (sucesso) {
+            System.out.println("Texto impresso com sucesso!");
+        } else {
+            System.out.println("Falha na impressão do texto");
+        }
     }
     
-    private boolean verificarNecessidadeRecarga(String texto){
+    protected abstract boolean executarImpressaoNoPapel(String texto);
+    
+    public boolean verificarNecessidadeRecarga(String texto){
         System.out.println("Verificando a Necessidade de Reccarga");
         
         float percentualConsumido = 
                 quantCaracteresImpressosDesdeUltimaRecarga * consumoPercentualPorCaracter;
         
         float percentualRequerido = 
-                texto.length() * quantCaracteresImpressosDesdeUltimaRecarga;
+                texto.length() *  consumoPercentualPorCaracter;
         
         boolean decisao = 
                percentualConsumido + percentualRequerido > 100;
@@ -50,8 +57,9 @@ public class Impressora {
     }
     
     public void recarregar() {
-        System.out.println("Recarregando...");
-
-        quantCaracteresImpressosDesdeUltimaRecarga = 0;
+        efetuarRecarga();
+        this.quantCaracteresImpressosDesdeUltimaRecarga = 0;
     }       
+    
+    protected abstract void efetuarRecarga();
 }

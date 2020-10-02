@@ -5,9 +5,12 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
-import siguinha.Aluno;
-import siguinha.Disciplinas;
-import siguinha.ItemDeHistorico;
+import entidades.Aluno;
+import entidades.Disciplinas;
+import historico.ItemDeHistorico;
+import historico.ItemDeHistoricoDisciplinaCursada;
+import java.util.ArrayList;
+import ui.Siguinha;
 
 public class AlunoTeste {
     
@@ -41,18 +44,18 @@ public class AlunoTeste {
     
     @Test
     public void getConclusaoDisciplinaTeste(){
-        ItemDeHistorico[] resultadoObtido = aluno.getDisciplinasCursadas();
-        assertNotNull(resultadoObtido);
-        for (int i = 0; i < resultadoObtido.length; i++) {
-            assertNull(resultadoObtido[i]);
+        ArrayList<ItemDeHistorico> historico = aluno.getHistorico();
+        assertNotNull(historico);
+        for (int i = 0; i < historico.size(); i++) {
+            assertNull(historico.get(i));
         }
-        assertEquals(0, aluno.getQuantDisciplinasCursadas());
+        assertEquals(0, aluno.quantDisciplinasCursadas());
 
         // o aluno vai cursar a primeira disciplina
         aluno.registrarConclusaoDisciplina(disciplina1, 6.5f, 2019, 2);
 
-        resultadoObtido = aluno.getDisciplinasCursadas();
-        ItemDeHistorico primeiroItem = resultadoObtido[0];
+        historico = aluno.getHistorico();
+        ItemDeHistoricoDisciplinaCursada primeiroItem = (ItemDeHistoricoDisciplinaCursada) historico.get(0);
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
         assertEquals(2019, primeiroItem.getAno());
         assertEquals(2, primeiroItem.getSemestre());
@@ -60,26 +63,54 @@ public class AlunoTeste {
 
         aluno.registrarConclusaoDisciplina(disciplina2, 8, 2020, 1);
         // verificar todas as disciplinas do histórico até aqui
-        resultadoObtido = aluno.getDisciplinasCursadas();
+        historico = aluno.getHistorico();
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
-        ItemDeHistorico segundoItem = resultadoObtido[1];
+        ItemDeHistoricoDisciplinaCursada segundoItem = (ItemDeHistoricoDisciplinaCursada) historico.get(1);        assertEquals("MAB002", segundoItem.getDisciplina().getCodigo());
         assertEquals("MAB002", segundoItem.getDisciplina().getCodigo());
         verificarAtualizacaoCreditos(2, 7.4f, 10);
 
         // o aluno vai cursar a terceira disciplina
         aluno.registrarConclusaoDisciplina(disciplina3, 10, 2020, 1);
 
-        resultadoObtido = aluno.getDisciplinasCursadas();
+        historico = aluno.getHistorico();
         assertEquals("MAB001", primeiroItem.getDisciplina().getCodigo());
         assertEquals("MAB002", segundoItem.getDisciplina().getCodigo());
-        ItemDeHistorico terceiroItem = resultadoObtido[2];
+        ItemDeHistoricoDisciplinaCursada terceiroItem = (ItemDeHistoricoDisciplinaCursada) historico.get(2);        assertEquals("MAJ003", terceiroItem.getDisciplina().getCodigo());
         assertEquals("MAJ003", terceiroItem.getDisciplina().getCodigo());
         verificarAtualizacaoCreditos(3, 8.375f, 16);
     }
     
-    private void verificarAtualizacaoCreditos(int quantDiscipinasEsperado, float craEsperado, int creditosAcumuladosEsperado) {
-        assertEquals(quantDiscipinasEsperado, aluno.getQuantDisciplinasCursadas());
+    @Test
+    public void retornarHistoricoTest() {
+        aluno.registrarConclusaoDisciplina(disciplina1, 6.5f, 2019, 2);
+        aluno.registrarConclusaoDisciplina(disciplina2, 8, 2020, 1);
+        aluno.registrarConclusaoDisciplina(disciplina3, 10, 2020, 2);
+
+        char sep = Siguinha.getSeparadorDecimal();
+
+        String historicoRetornado = aluno.retornarHistoricoAsString();
+        String historicoEsperado =
+                "2019.2 - entidades.Disciplina 1 (MAB001) - média 6" + sep + "5 - 4 créditos\n" +
+                "2020.1 - entidades.Disciplina 2 (MAB002) - média 8" + sep + "0 - 6 créditos\n" +
+                "2020.2 - entidades.Disciplina 3 (MAJ003) - média 10" + sep + "0 - 6 créditos";
+        assertEquals(historicoEsperado, historicoRetornado);
+    }
+
+    @Test
+    public void testarMuitasDisciplinasCursadas() {
+        for (int i = 1; i <= 1000; i++) {
+            aluno.registrarConclusaoDisciplina(disciplina1, 10, 2020, 1);
+        }
+        assertEquals(1000, aluno.quantDisciplinasCursadas());
+    }
+
+
+    private void verificarAtualizacaoCreditos(int quantDiscipinasEsperado,
+                                              float craEsperado,
+                                              int creditosAcumuladosEsperado) {
+        assertEquals(quantDiscipinasEsperado, aluno.quantDisciplinasCursadas());
         assertEquals(craEsperado, aluno.getCra(), 0);  // o terceiro parâmetro é a maior diferença aceitável
         assertEquals(creditosAcumuladosEsperado, aluno.getCreditosAcumulados());
     }
+    
 }
