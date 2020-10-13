@@ -1,9 +1,9 @@
 
 package testes;
 
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
@@ -124,9 +124,27 @@ public class BancoTeste {
         assertEquals("O banco deve retornar corretamente uma conta baseado em seu número",
                 conta1, contaDoJoao);
 
-        Conta contaDaMaria = banco.obterConta(maria);
+        Conta resultadoBuscaContaMaria = banco.obterConta(maria);
         assertEquals("O banco deve retornar corretamente uma conta baseado no dono da conta",
-                conta2, contaDaMaria);
+                conta2, resultadoBuscaContaMaria);
+        // criaremos agora uma segunda conta para a mesma correntista Maria
+        Conta novaContaParaMaria = banco.criarConta(agencia, maria);
+
+        resultadoBuscaContaMaria = banco.obterConta(maria);
+        // agora eu espero que o resultado dessa busca seja null, porque a Maria tem 2 contas!!!
+        assertNull("Usuários com mais de uma conta devem fazer com que o método obterConta() " +
+                "retorne null", resultadoBuscaContaMaria);
+
+        Correntista outroObjetoRepresentandoAMesmaMaria = new Correntista("Maria", 333123);
+
+        List<Conta> resultadoBuscaContasDaMaria = banco.obterContas(
+                outroObjetoRepresentandoAMesmaMaria);
+
+        assertEquals("Todas as contas de um correntista devem ser retornadas",
+                2, resultadoBuscaContasDaMaria.size());
+        assertFalse(resultadoBuscaContasDaMaria.contains(conta1));
+        assertTrue(resultadoBuscaContasDaMaria.contains(conta2));
+        assertTrue(resultadoBuscaContasDaMaria.contains(novaContaParaMaria));
     }
 
     @Test
